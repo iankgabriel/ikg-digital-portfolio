@@ -1,0 +1,905 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IKG Digital — AI Automation Specialist</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* ===== Tokens ===== */
+:root {
+  --accent: #2563EB;
+  --bg-page: #0F172A;
+  --bg-alt: #16202F;
+  --bg-card: #1E293B;
+  --border: #263449;
+  --border-strong: #324058;
+  --text-primary: #F1F5F9;
+  --text-secondary: #94A3B8;
+  --text-body: #CBD5E1;
+  --text-muted: #64748B;
+  --text-faint: #475569;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: 'Public Sans', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; margin: 0; }
+p { margin: 0; }
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar { width: 10px; background: transparent; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background-color: transparent; border-radius: 10px; transition: background-color .4s ease; }
+html.is-scrolling::-webkit-scrollbar-thumb { background-color: var(--border-strong); }
+
+/* ===== Nav ===== */
+.nav-bar {
+  position: sticky; top: 0; z-index: 500; width: 100%;
+  background: color-mix(in srgb, var(--bg-page) 75%, transparent);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 64px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.nav-brand { font-family: 'Fraunces', Georgia, serif; font-size: 20px; font-weight: 600; }
+.nav-right { display: flex; align-items: center; gap: 32px; }
+.nav-links { display: flex; gap: 32px; font-size: 15px; color: var(--text-secondary); align-items: center; }
+.nav-links a:hover { opacity: .75; }
+.nav-links a.active { color: var(--text-primary); }
+.hamburger-btn { display: none; background: none; border: none; cursor: pointer; padding: 8px; flex-direction: column; gap: 5px; }
+.hamburger-bar { width: 22px; height: 2px; background: var(--text-primary); border-radius: 2px; }
+
+@media (max-width: 860px) {
+  .hamburger-btn { display: flex; }
+  .nav-bar { padding: 16px 20px; }
+  .nav-links {
+    display: none; position: absolute; top: 100%; left: 0; right: 0;
+    background: var(--bg-page); flex-direction: column; align-items: flex-start;
+    padding: 20px 24px; border-bottom: 1px solid var(--border); gap: 18px; z-index: 600;
+  }
+  .nav-links.open { display: flex; }
+  .section-pad { padding: 56px 24px !important; }
+  .section-pad-tight { padding: 56px 24px 0 !important; }
+  .hero-pad { padding: 96px 24px 48px !important; }
+  .hero-title { font-size: 34px !important; }
+  .grid-4 { grid-template-columns: 1fr !important; }
+  .grid-3 { grid-template-columns: 1fr !important; }
+  .grid-2 { grid-template-columns: 1fr !important; }
+  .ba-grid { grid-template-columns: 1fr !important; }
+  .badges-row { flex-wrap: wrap !important; justify-content: center !important; row-gap: 24px !important; }
+  .modal-overlay { padding: 12px !important; }
+  .photo-placeholder { width: 180px !important; height: 180px !important; }
+  .section-title { font-size: 26px !important; }
+}
+@media (max-width: 480px) {
+  .hero-title { font-size: 28px !important; }
+  .badges-row > div { width: 130px !important; height: 130px !important; }
+  .badges-row img { width: 130px !important; height: 130px !important; }
+}
+
+/* ===== Buttons ===== */
+.cta-button {
+  background: var(--accent); color: #F8FAFC; font-weight: 600;
+  padding: 16px 32px; border-radius: 8px; font-size: 16px; display: inline-block;
+  border: none; cursor: pointer;
+  transition: opacity .15s ease, transform .15s ease, box-shadow .3s ease;
+  box-shadow: 0 0 28px 6px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.cta-button:hover { opacity: .95; transform: translateY(-1px); box-shadow: 0 0 0 0 transparent; }
+.link-button { font-weight: 600; padding: 16px 8px; font-size: 16px; display: inline-block; border-bottom: 1px solid var(--border-emphasis, var(--border-strong)); }
+.link-button:hover { opacity: .8; }
+
+/* ===== Sections ===== */
+.section-pad { width: 100%; max-width: 1200px; margin: 0 auto; padding: 112px 64px; display: flex; flex-direction: column; gap: 32px; }
+.section-pad-tight { width: 100%; max-width: 1200px; margin: 0 auto; padding: 112px 64px 0; display: flex; flex-direction: column; gap: 32px; }
+.section-boxed { width: 100%; background: var(--bg-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.hero-pad { width: 100%; max-width: 1200px; margin: 0 auto; padding: 140px 64px 112px; display: flex; flex-direction: column; gap: 32px; }
+.eyebrow { font-size: 15px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+.eyebrow-sm { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 12px; }
+.hero-title { font-size: 60px; line-height: 1.1; font-weight: 600; max-width: 820px; }
+.section-title { font-size: 34px; font-weight: 600; }
+.section-sub { font-size: 16px; line-height: 1.6; color: var(--text-secondary); max-width: 640px; margin-top: 10px; }
+
+/* ===== Grids ===== */
+.grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 24px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 24px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 24px; }
+
+/* ===== Cards ===== */
+.card {
+  padding: 28px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.click-card { cursor: pointer; transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease; }
+.click-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 14px 32px rgba(0,0,0,.35); }
+.badge-click { cursor: pointer; transition: transform .15s ease; }
+.badge-click:hover { transform: scale(1.06); }
+.card-title { font-weight: 600; font-size: 17px; min-height: 46px; line-height: 1.3; display: flex; align-items: center; white-space: pre-line; }
+.card-desc { font-size: 14px; line-height: 1.55; color: var(--text-secondary); min-height: 88px; }
+.tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.tag { font-size: 13px; font-weight: 500; background: var(--bg-page); border: 1px solid var(--border-strong); border-radius: 6px; padding: 6px 12px; white-space: nowrap; }
+.tag-pill { font-size: 15px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 999px; padding: 10px 20px; }
+.badge { font-size: 12px; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 4px 10px; white-space: nowrap; }
+
+/* Project card with image */
+.project-card { padding: 0; overflow: hidden; height: 100%; }
+.project-card-img { width: 100%; height: 200px; object-fit: cover; background: var(--bg-page); border-bottom: 1px solid var(--border); }
+.project-card-img-placeholder {
+  width: 100%; height: 200px; background: var(--bg-page); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; color: var(--text-faint); font-size: 13px;
+}
+.project-card-body { padding: 24px; display: flex; flex-direction: column; gap: 14px; flex: 1; min-height: 220px; }
+
+/* ===== Fade-up scroll animation ===== */
+.fade-up { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
+.fade-up.in-view { opacity: 1; transform: translateY(0); }
+
+/* ===== Modal ===== */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.75); z-index: 2000;
+  display: none; align-items: center; justify-content: center; padding: 40px;
+}
+.modal-overlay.open { display: flex; }
+@keyframes overlayFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes modalPopIn { from { opacity: 0; transform: scale(.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+.modal-overlay.open { animation: overlayFadeIn .18s ease; }
+.modal-box {
+  background: var(--bg-card); border: 1px solid var(--border-strong); border-radius: 14px;
+  max-width: 920px; width: 100%; max-height: 85vh; display: flex; flex-direction: column; overflow: hidden;
+  animation: modalPopIn .22s cubic-bezier(.16,1,.3,1);
+}
+.modal-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 22px; border-bottom: 1px solid var(--border); }
+.modal-close { background: none; border: none; color: var(--text-secondary); font-size: 22px; cursor: pointer; line-height: 1; }
+.modal-body { overflow: auto; padding: 24px; display: flex; flex-direction: column; gap: 26px; }
+.ba-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+.ba-box { border-radius: 10px; padding: 18px; }
+.ba-before { background: #3A2A1F; border: 1px solid #55402E; }
+.ba-after { background: #12312B; border: 1px solid #1E4A40; }
+.ba-title { font-weight: 700; margin-bottom: 10px; font-size: 14px; }
+.ba-line { display: flex; gap: 8px; font-size: 14px; line-height: 1.6; margin-bottom: 8px; }
+.ba-result { text-align: center; font-weight: 700; font-size: 17px; color: var(--accent); padding: 4px 0; }
+.ba-casestudy { font-size: 14px; line-height: 1.7; color: var(--text-body); }
+
+/* ===== Footer ===== */
+.site-footer { width: 100%; border-top: 1px solid var(--border); padding: 56px 64px 32px; }
+.footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; }
+.footer-brand { display: flex; align-items: center; gap: 8px; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 17px; }
+.footer-tagline { font-size: 14px; color: var(--text-muted); margin-top: 10px; }
+.footer-heading { font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 12px; }
+.footer-link { display: block; font-size: 14px; color: var(--text-muted); margin-bottom: 10px; }
+.footer-link:hover { color: var(--text-primary); }
+.footer-social { display: flex; gap: 14px; }
+.footer-social a { color: var(--text-muted); }
+.footer-social a:hover { color: var(--text-primary); }
+.footer-bottom {
+  max-width: 1200px; margin: 24px auto 0; padding-top: 24px; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--text-faint);
+}
+@media (max-width: 860px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .site-footer { padding: 48px 24px 24px; }
+  .footer-bottom { flex-direction: column; gap: 12px; align-items: flex-start; }
+}
+
+/* ===== Back to top / misc ===== */
+.fab-button {
+  position: fixed; z-index: 1000; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease;
+  box-shadow: 0 8px 20px rgba(0,0,0,.35);
+}
+.fab-button:hover { transform: scale(1.06); }
+#back-to-top {
+  bottom: 24px; left: 24px; background: var(--bg-card); color: var(--accent); border: 1px solid var(--accent);
+  border-radius: 999px; width: 48px; height: 48px; font-size: 18px;
+}
+
+/* ===== About page ===== */
+.photo-placeholder {
+  width: 260px; height: 260px; border-radius: 16px; background: var(--bg-card);
+  border: 1px dashed var(--border-strong); display: flex; align-items: center; justify-content: center;
+  color: var(--text-faint); font-size: 13px; text-align: center; padding: 20px; flex-shrink: 0;
+}
+
+/* ===== Contact page ===== */
+.contact-row { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 18px 22px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; }
+.contact-row-head { display: flex; align-items: center; gap: 10px; }
+.contact-value { font-weight: 600; font-size: 15px; width: 100%; overflow-wrap: break-word; word-break: break-word; }
+.contact-icon { width: 30px; height: 30px; border-radius: 8px; background: var(--bg-page); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--accent); }
+.contact-icon svg { width: 16px; height: 16px; }
+.calendar-placeholder {
+  width: 100%; min-height: 420px; border-radius: 14px; background: var(--bg-card);
+  border: 1px dashed var(--border-strong); display: flex; align-items: center; justify-content: center;
+  color: var(--text-faint); font-size: 14px; text-align: center; padding: 40px;
+}
+.page-section { display: none; }
+.page-section.active { display: block; }
+.nav-links a.active { color: var(--text-primary); }
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="#home" class="nav-brand" onclick="showPage('home')">IKG Digital</a>
+  <button class="hamburger-btn" onclick="toggleMobileMenu()">
+    <div class="hamburger-bar"></div><div class="hamburger-bar"></div><div class="hamburger-bar"></div>
+  </button>
+  <div class="nav-links" id="nav-links">
+    <a href="#home" data-page="home" onclick="showPage('home')">Home</a>
+    <a href="#about" data-page="about" onclick="showPage('about')">About</a>
+    <a href="#projects" data-page="projects" onclick="showPage('projects')">Projects</a>
+    <a href="#contact" data-page="contact" onclick="showPage('contact')">Contact</a>
+  </div>
+</div>
+
+<!-- ============ HOME ============ -->
+<div class="page-section" id="page-home">
+
+  <div class="hero-pad">
+    <div class="eyebrow">AI Automation Specialist</div>
+    <h1 class="hero-title">I build AI-powered automations that stop small businesses from losing leads to manual work.</h1>
+    <p style="font-size:19px; line-height:1.6; color:var(--text-body); max-width:640px;">I design and ship workflows that combine no-code platforms like Make, n8n, Zapier, and GoHighLevel with AI models and Claude Code, so replies go out in seconds instead of hours.</p>
+    <div style="display:flex; gap:16px; align-items:center; margin-top:8px; flex-wrap:wrap;">
+      <a href="#contact" class="cta-button" onclick="showPage('contact')">Get in touch</a>
+      <a href="#home-certifications" class="link-button" onclick="scrollToId('home-certifications'); return false;">View certifications</a>
+      <a href="#projects" class="link-button" onclick="showPage('projects')">See the projects &rarr;</a>
+    </div>
+  </div>
+
+  <div class="section-boxed">
+    <div class="section-pad">
+      <div class="fade-up">
+        <h2 class="section-title">Explore by platform</h2>
+      </div>
+      <div class="grid-4">
+        <a href="#projects-make" class="card click-card fade-up" style="align-items:center; justify-content:center; min-height:140px;" onclick="showPage('projects','make')">
+          <img src="/_blob/eb394ab7461d4e4f8276fb0b66825925" style="max-height:44px; width:auto;">
+        </a>
+        <a href="#projects-n8n" class="card click-card fade-up" style="align-items:center; justify-content:center; min-height:140px;" onclick="showPage('projects','n8n')">
+          <img src="/_blob/4a1a09b1d97c38014543b2c0653ad6f9" style="max-height:50px; width:auto;">
+        </a>
+        <a href="#projects-zapier" class="card click-card fade-up" style="align-items:center; justify-content:center; min-height:140px;" onclick="showPage('projects','zapier')">
+          <img src="/_blob/b894628a954589ebf5f825e5f5e8d699" style="max-height:46px; width:auto;">
+        </a>
+        <a href="#projects-ghl" class="card click-card fade-up" style="align-items:center; justify-content:center; min-height:140px;" onclick="showPage('projects','ghl')">
+          <img src="/_blob/dd08ea5c17fc39c57c8a005db3d53993" style="max-height:46px; width:auto;">
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-pad" id="home-certifications">
+    <h2 class="section-title fade-up">Certifications</h2>
+    <div class="badges-row fade-up" style="display:flex; flex-wrap:nowrap; justify-content:space-between; gap:16px;">
+      <div class="badge-click" onclick="openCertModal(0)" style="width:190px; height:190px; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><img src="/_blob/a93ad09e597e0dfe0bf4a9d9556e8fbe" style="width:190px; height:190px; object-fit:contain;"></div>
+      <div class="badge-click" onclick="openCertModal(1)" style="width:190px; height:190px; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><img src="/_blob/33b2107a0eb5db0a59b61241557a1926" style="width:190px; height:190px; object-fit:contain;"></div>
+      <div class="badge-click" onclick="openCertModal(2)" style="width:190px; height:190px; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><img src="/_blob/26cfefeaa5c9517cefbcfca9d7e1a563" style="width:190px; height:190px; object-fit:contain;"></div>
+      <div class="badge-click" onclick="openCertModal(3)" style="width:190px; height:190px; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><img src="/_blob/f55feb6a09e677cb0b0d6214388614c6" style="width:190px; height:190px; object-fit:contain;"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============ ABOUT ============ -->
+<div class="page-section" id="page-about">
+  <div class="hero-pad" style="padding-bottom: 0;">
+    <div class="eyebrow">About</div>
+  </div>
+  <div class="section-pad" style="padding-top: 40px;">
+    <div class="fade-up" style="display:flex; gap:48px; flex-wrap:wrap; align-items:flex-start;">
+      <div class="photo-placeholder">Add your photo here</div>
+      <div style="flex:1; min-width:280px; display:flex; flex-direction:column; gap:18px;">
+        <h2 class="section-title">Hi, I'm Ian.</h2>
+        <p style="font-size:17px; line-height:1.7; color:var(--text-body); max-width:640px;">
+          I'm an AI Automation Specialist transitioning into this field from a different career, building on the belief that most small businesses lose real revenue to slow, manual processes that automation can fix in seconds. I design and ship workflows across Make, n8n, Zapier, and GoHighLevel — combining no-code platforms with AI models and Claude Code to handle lead response, document processing, and customer support without a human having to babysit every step.
+        </p>
+        <p style="font-size:17px; line-height:1.7; color:var(--text-body); max-width:640px;">
+          I don't write code by hand day to day — I rely on Claude and Claude Code to handle the technical implementation, while I focus on understanding the actual business problem, designing the right logic, and making sure every automation I ship is something I can explain and defend, not just something that happens to work.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-boxed">
+    <div class="section-pad">
+      <h2 class="section-title fade-up" style="margin-bottom: 8px;">What I Do</h2>
+      <div class="grid-4">
+        <div class="card fade-up">
+          <div style="font-weight:600; font-size:17px; min-height:46px; display:flex; align-items:center;">Lead Qualification &amp; Routing</div>
+          <div class="card-desc">AI reads a new lead and routes it to the right next step automatically.</div>
+        </div>
+        <div class="card fade-up">
+          <div style="font-weight:600; font-size:17px; min-height:46px; display:flex; align-items:center;">AI Customer Support</div>
+          <div class="card-desc">Chatbots grounded in a real knowledge base, with a clean handoff to a human.</div>
+        </div>
+        <div class="card fade-up">
+          <div style="font-weight:600; font-size:17px; min-height:46px; display:flex; align-items:center;">Document &amp; Data Automation</div>
+          <div class="card-desc">Invoices and forms extracted and entered into a CRM or sheet, no manual typing.</div>
+        </div>
+        <div class="card fade-up">
+          <div style="font-weight:600; font-size:17px; min-height:46px; display:flex; align-items:center;">Custom Integrations</div>
+          <div class="card-desc">Built with Claude Code for logic too specific for drag-and-drop tools.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-boxed">
+    <div class="section-pad" style="padding-top: 56px;">
+      <h2 class="section-title fade-up">Skills &amp; Tools</h2>
+      <div class="fade-up" style="display:flex; flex-wrap:wrap; gap:12px;">
+        <div class="tag-pill">Make</div><div class="tag-pill">n8n</div><div class="tag-pill">Zapier</div>
+        <div class="tag-pill">GoHighLevel</div><div class="tag-pill">OpenAI API</div>
+        <div class="tag-pill">Claude / Claude Code</div><div class="tag-pill">Slack API</div>
+        <div class="tag-pill">Google Sheets API</div><div class="tag-pill">Webhooks</div>
+        <div class="tag-pill">RAG / Vector Stores</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PROJECTS ============ -->
+<div class="page-section" id="page-projects">
+  <div class="hero-pad" style="padding-bottom: 40px;">
+    <h1 class="hero-title" style="font-size: 44px;">Featured Projects</h1>
+  </div>
+  <div id="platform-sections"></div>
+</div>
+
+<!-- ============ CONTACT ============ -->
+<div class="page-section" id="page-contact">
+  <div class="hero-pad" style="padding-bottom: 0;">
+    <div class="eyebrow">Contact</div>
+    <h1 class="hero-title" style="font-size: 44px;">Let's automate something.</h1>
+    <p style="font-size:17px; line-height:1.6; color:var(--text-body); max-width:520px;">If your leads, support, or back office runs on manual work, I can probably take a chunk of it off your plate.</p>
+  </div>
+  <div class="section-pad">
+    <div class="grid-3 fade-up">
+      <a href="mailto:ian.kennedy.gabriel@gmail.com" class="contact-row click-card">
+        <div class="contact-row-head"><div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/></svg></div><div style="font-size:13px; color:var(--text-secondary);">Email</div></div>
+        <div class="contact-value">ian.kennedy.gabriel@gmail.com</div>
+      </a>
+      <a href="https://api.whatsapp.com/send?phone=639271291980" target="_blank" rel="noopener" class="contact-row click-card">
+        <div class="contact-row-head"><div class="contact-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.9-1.4A10 10 0 1 0 12 2zm5.6 14.1c-.2.6-1.3 1.2-1.8 1.3-.5.1-1 .1-3.2-.8-2.7-1.1-4.4-3.9-4.6-4.1-.1-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 1-2.2.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.4.6c-.1.2-.2.3-.1.5.2.4.9 1.4 1.9 2.2 1.3 1 2.3 1.4 2.6 1.5.2.1.4.1.6-.1l.6-.7c.2-.3.4-.2.6-.1l1.8.9c.2.1.4.2.4.4 0 .2 0 .8-.2 1.4z"/></svg></div><div style="font-size:13px; color:var(--text-secondary);">WhatsApp</div></div>
+        <div class="contact-value">+63 927 129 1980</div>
+      </a>
+      <a href="https://www.linkedin.com/in/ian-kennedy-gabriel/" target="_blank" rel="noopener" class="contact-row click-card">
+        <div class="contact-row-head"><div class="contact-icon"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/><path d="M10 9h4v2c1-1.5 2.5-2 4-2 3 0 5 2 5 6v6h-4v-6c0-1.5-1-2.5-2.5-2.5S14 13.5 14 15v6h-4V9z"/></svg></div><div style="font-size:13px; color:var(--text-secondary);">LinkedIn</div></div>
+        <div class="contact-value">linkedin.com/in/ian-kennedy-gabriel</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section-boxed">
+    <div class="section-pad">
+      <h2 class="section-title fade-up" style="font-size:22px;">Book a call</h2>
+      <div class="fade-up" style="display:flex; flex-direction:column; gap:12px;">
+        <a href="https://calendar.app.google/qGXL7eucWt1RygM89" target="_blank" rel="noopener" style="font-size:13px; color:var(--text-secondary); align-self:flex-end;">Booking page not loading? Open it directly &rarr;</a>
+        <iframe src="https://calendar.app.google/qGXL7eucWt1RygM89" style="width:100%; min-height:640px; border:1px solid var(--border); border-radius:14px; background:var(--bg-card);" loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+
+<button class="fab-button" id="back-to-top" onclick="goToTop()">&uarr;</button>
+
+<div class="modal-overlay" id="project-modal">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div id="modal-title" style="font-weight:600; font-size:17px;"></div>
+      <button class="modal-close" onclick="closeProjectModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div id="modal-shots" style="display:flex; flex-direction:column; gap:20px;"></div>
+      <div id="modal-casestudy" style="display:flex; flex-direction:column; gap:18px; border-top:1px solid var(--border); padding-top:22px;">
+        <div class="ba-grid">
+          <div class="ba-box ba-before"><div class="ba-title" style="color:#E8A87C;">Before</div><div id="modal-before"></div></div>
+          <div class="ba-box ba-after"><div class="ba-title" style="color:#7FD9C4;">After</div><div id="modal-after"></div></div>
+        </div>
+        <div class="ba-result" id="modal-result"></div>
+        <div class="ba-casestudy" id="modal-casestudytext"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var PLATFORM_DATA = {
+  make: {
+    name: 'Make',
+    logo: '/_blob/eb394ab7461d4e4f8276fb0b66825925',
+    intro: 'Built on Make.com using its Router, native app connectors, and Iterator and Aggregator modules for multi-source data pipelines.',
+    projects: [
+      {
+        title: 'AI Inbox Triage & Routing',
+        desc: 'Classifies every inbound message as Sales, Support, or Spam, then drafts a reply and alerts the right Slack channel \u2014 only spending AI budget on messages that actually need one.',
+        tools: ['Router', 'HTTP', 'Slack', 'Webhooks', 'Groq API', 'JSON'],
+        screenshots: [{ url: '/_blob/17b577dc0e130c64f75dc5f752a26faa', label: '' }],
+        hasCaseStudy: true,
+        before: ['Every message got opened and read before anyone knew if it mattered', 'Sales inquiries sat in the same queue as newsletter spam', 'No way to tell how much AI budget was going toward messages that didn\u2019t need a reply'],
+        after: ['AI tags each message the second it lands', 'Only real inquiries get a drafted reply \u2014 spam just gets logged', 'A glance at Slack shows what actually needs attention'],
+        result: 'Spam never reaches the AI drafting step at all \u2014 it costs nothing to process',
+        caseStudy: 'Most of the cost in something like this comes from the AI call, not the logic around it, so I split classification and reply-drafting into two separate steps instead of one. Spam and routine noise never reach the drafting step \u2014 only Sales and Support do. It\u2019s a small change on paper but it\u2019s the difference between paying for every message and paying for maybe a third of them once real volume shows up.'
+      },
+      {
+        title: 'Invoice/Document Processing & Validation',
+        desc: 'Validates incoming invoice data against a source-of-truth Google Sheet, then routes it as approved, flagged for a mismatch, or missing information.',
+        tools: ['Google Sheets', 'Router', 'Filters', 'Webhooks', 'JSON'],
+        screenshots: [{ url: '/_blob/1f71e210ac56bdb21717511848563003', label: '' }],
+        hasCaseStudy: true,
+        before: ['Someone checks each invoice against the PO by hand', 'A mismatch only gets caught if someone happens to notice it', 'No record of what was approved or when'],
+        after: ['Every invoice gets checked against the sheet automatically', 'A mismatch gets flagged the moment it comes in', 'Approved invoices log themselves, no extra step'],
+        result: 'A manual lookup that took a few minutes now happens instantly, every single time',
+        caseStudy: 'There\u2019s no AI in this one at all \u2014 it\u2019s just a lookup and a number comparison, and honestly that\u2019s the point. Not everything needs a language model bolted onto it; a Google Sheets lookup and a couple of filter conditions do this job faster and don\u2019t cost a cent to run. The one thing that actually took some trial and error was the invoice-with-no-matching-PO case \u2014 Make doesn\u2019t treat a failed lookup as an error by default, so that path needed its own explicit check rather than just relying on something throwing.'
+      },
+      {
+        title: 'Scheduled Multi-Source Reporting Pipeline',
+        desc: 'Runs on a daily timer, pulls from two different public APIs, reshapes the results with an Iterator and Aggregator, logs it, and posts a digest to Slack.',
+        tools: ['Iterator', 'Aggregator', 'Google Sheets', 'HTTP', 'Scheduling', 'Slack', 'Tools (Set Variable)'],
+        screenshots: [{ url: '/_blob/935060923d984b9a0eece570364ad5eb', label: '' }],
+        hasCaseStudy: true,
+        before: ['Checking two different sites by hand every morning', 'No record of what yesterday\u2019s numbers even were', 'Easy to just forget to check on a busy day'],
+        after: ['Pulls weather and crypto prices automatically at 9am', 'Logs each day\u2019s numbers, building a real history over time', 'Posts a short digest to Slack \u2014 nobody has to go looking for it'],
+        result: 'A daily manual check turned into a report that just shows up on its own',
+        caseStudy: 'This is the project that actually uses the Iterator/Aggregator pair, which is the part of Make that trips up a lot of people. The crypto endpoint returns three coins in one response, so the Iterator breaks that apart, and the Aggregator glues the pieces back into one clean block of text for the Slack message. Small detail worth mentioning: both APIs here need zero signup or key, which was a deliberate choice so the whole thing runs at no cost.'
+      }
+    ]
+  },
+  n8n: {
+    name: 'n8n',
+    logo: '/_blob/4a1a09b1d97c38014543b2c0653ad6f9',
+    intro: 'Built in n8n, starting with simple routing logic and building up to a full RAG-grounded research agent with its own knowledge base.',
+    projects: [
+      {
+        title: 'AI Inbox Triage & Routing',
+        desc: 'Same classify-and-route logic as the other platforms, built with n8n\u2019s node-based canvas, a Switch node, and native Slack integration.',
+        tools: ['Webhook', 'Switch', 'Slack', 'Groq API', 'Edit Fields', 'JSON'],
+        screenshots: [{ url: '/_blob/4b833bc6fd08292717da3fc0639275f5', label: '' }],
+        hasCaseStudy: true,
+        before: ['Every message got opened and read before anyone knew if it mattered', 'Sales inquiries sat in the same queue as newsletter spam', 'No way to tell how much AI budget was going toward messages that didn\u2019t need a reply'],
+        after: ['A Switch node tags each message the moment it lands', 'Only Sales and Support branches trigger a drafted reply', 'Spam gets logged to Slack with zero AI spend'],
+        result: 'Same cost-saving split as the other platforms \u2014 spam never reaches the drafting step',
+        caseStudy: 'n8n\u2019s Switch node made this one of the more straightforward branches to build, since it maps closely to the Router concept from Make. The part worth calling out is a data-passing gotcha: the HTTP-based Groq call replaces the item\u2019s data with its own response, so reaching the original sender, subject, and body further down the branch means referencing an earlier node by name directly, instead of assuming the current data still has everything. Small thing, but it\u2019s exactly the kind of detail that trips people up the first time they build a multi-step n8n workflow.'
+      },
+      {
+        title: 'Invoice/Document Processing & Validation',
+        desc: 'Looks up incoming invoices against a Google Sheet of purchase orders and branches into Valid, Discrepancy, or Missing \u2014 handling n8n\u2019s no-match edge case explicitly.',
+        tools: ['Google Sheets', 'Switch', 'Slack', 'Webhook', 'Edit Fields'],
+        screenshots: [{ url: '/_blob/dcc5e68377a379317ee47edd646c317e', label: '' }],
+        hasCaseStudy: true,
+        before: ['Someone checks each invoice against the PO by hand', 'A mismatch only gets caught if someone happens to notice it', 'No record of what was approved or when'],
+        after: ['Every invoice gets checked against the sheet automatically', 'A mismatch gets flagged the moment it comes in', 'A missing PO gets its own explicit path instead of failing silently'],
+        result: 'The \u201cno matching PO\u201d case is handled on purpose, not by accident',
+        caseStudy: 'n8n has a real gotcha here that Make and Zapier don\u2019t: when a Google Sheets lookup finds no match, the node returns zero output items by default instead of an empty result, meaning the whole execution just quietly stops \u2014 no error, nothing. Had to turn on \u201cAlways Output Data\u201d in that node\u2019s settings specifically so a genuinely missing PO reaches its own branch instead of the workflow silently dying. It\u2019s the kind of failure mode you only find by actually testing the missing-data case, not just the happy path.'
+      },
+      {
+        title: 'AI Research Agent (RAG-grounded)',
+        desc: 'A multi-step AI Agent that searches a real knowledge base before answering, and honestly says when something isn\u2019t covered instead of guessing \u2014 with session-based memory for follow-up questions.',
+        tools: ['AI Agent', 'Vector Store', 'Embeddings', 'Groq Chat Model', 'Google Gemini', 'Simple Memory', 'Webhook'],
+        screenshots: [
+          { url: '/_blob/647303927a94a2cc372c0b97f253f94c', label: 'Workflow 3.1 \u2014 Load Knowledge Base' },
+          { url: '/_blob/614d94036d9d4f493a6dfb8a54425679', label: 'Workflow 3.2 \u2014 Research Agent (Ask a Question)' }
+        ],
+        hasCaseStudy: true,
+        before: ['An answer depended on someone knowing the FAQ by heart', 'A generic AI reply risked confidently making something up', 'Every question started from zero, with no memory of what was already asked'],
+        after: ['Every answer is grounded in a real, loaded knowledge base', 'It says \u201cI don\u2019t know\u201d instead of guessing when something isn\u2019t covered', 'Session-based memory lets a follow-up question build on the last one'],
+        result: 'The agent is honest about what it doesn\u2019t know, not just fast at answering',
+        caseStudy: 'This is the deepest build in the whole portfolio \u2014 a real AI Agent node with a vector store attached as a tool, not just a single prompt-in-answer-out call. The thing I\u2019d point to first in an interview: I specifically tested it with a question the FAQ doesn\u2019t cover, to prove it says so honestly instead of hallucinating an answer, which is the actual point of RAG over a plain chatbot. Session memory needed its own session ID passed through the webhook payload, since a stateless trigger has no built-in way to know which conversation a message belongs to.'
+      }
+    ]
+  },
+  zapier: {
+    name: 'Zapier',
+    logo: '/_blob/b894628a954589ebf5f825e5f5e8d699',
+    intro: 'Built using Zapier\u2019s own tools, including Paths, Filters, and Code by Zapier, adapting the same problem-solving approach to a different platform.',
+    projects: [
+      {
+        title: 'AI Inbox Triage & Routing',
+        desc: 'Classifies every inbound message as Sales, Support, or Spam, then drafts a reply and alerts the right Slack channel \u2014 but only spends AI budget on messages that actually need one.',
+        tools: ['Webhooks by Zapier', 'Paths', 'Slack', 'Custom Request', 'Groq API'],
+        screenshots: [{ url: '/_blob/cb1a356cabc4260139e6081be291c0b8', label: '' }],
+        hasCaseStudy: true,
+        before: ['Every message got opened and read before anyone knew if it mattered', 'Sales inquiries sat in the same queue as newsletter spam', 'No way to tell how much AI budget was going toward messages that didn\u2019t need a reply'],
+        after: ['Paths branch by AI-classified category the moment a message lands', 'Only Sales and Support branches trigger a drafted reply', 'Spam gets logged with zero AI spend'],
+        result: 'Same cost-saving split as the other platforms, built with Zapier\u2019s own Paths',
+        caseStudy: 'Zapier\u2019s Webhooks \u201cPOST\u201d action can\u2019t actually handle a nested JSON body like the one this needs for the AI call \u2014 it silently mangles arrays. The fix is \u201cCustom Request\u201d instead of \u201cPOST,\u201d which accepts a raw JSON body as one block rather than trying to build it from key-value rows. That one substitution is the difference between this working and quietly failing on every request, and it\u2019s a genuinely common trap for anyone building their first Zapier automation against an API that needs nested data.'
+      },
+      {
+        title: 'Invoice/Document Processing & Validation',
+        desc: 'Validates incoming invoice data against a source-of-truth record, then routes it as approved, flagged for a mismatch, or missing information \u2014 using deterministic logic instead of an AI call.',
+        tools: ['Google Sheets', 'Code by Zapier', 'Paths', 'Webhooks by Zapier'],
+        screenshots: [{ url: '/_blob/63e66f7e9b3021a74047f6a08429328e', label: '' }],
+        hasCaseStudy: true,
+        before: ['Someone checks each invoice against the PO by hand', 'A mismatch only gets caught if someone happens to notice it', 'No record of what was approved or when'],
+        after: ['Every invoice gets checked against the sheet automatically', 'A mismatch gets flagged the moment it comes in', 'Approved invoices log themselves, no extra step'],
+        result: 'No AI call anywhere in this one \u2014 a lookup and a comparison do the whole job',
+        caseStudy: 'Built entirely with Paths and a Google Sheets lookup, no Code by Zapier needed for the comparison itself. What\u2019s worth explaining is the ordering: the \u201cmissing\u201d path is checked first, since by the time you\u2019re comparing amounts, you already know the record exists. Checking in the wrong order would mean writing a redundant existence check into every later path instead of ruling it out once, at the top.'
+      },
+      {
+        title: 'Multi-Path Support Ticket Router',
+        desc: 'Filters out obvious noise, then scores every ticket for priority and category with custom logic, routing urgent issues to a different channel than routine ones.',
+        tools: ['Filter', 'Code by Zapier', 'Paths', 'Webhooks by Zapier', 'Slack', 'Google Sheets'],
+        screenshots: [{ url: '/_blob/36d249cd63a15e580f5b096d4c70d8e5', label: '' }],
+        hasCaseStudy: true,
+        before: ['Every ticket got the same priority, urgent or not', 'Obvious noise like unsubscribe requests still took up a spot in the queue', 'Sorting by topic meant reading each one first'],
+        after: ['A Filter step screens out obvious noise before anything else runs', 'Custom JavaScript scores each ticket for both priority and category', 'Urgent issues post to a different channel than routine ones'],
+        result: 'No AI model anywhere in this one \u2014 keyword logic does the sorting',
+        caseStudy: 'This is the one project in the portfolio built specifically to prove a point: sophisticated-looking routing doesn\u2019t require an AI call. A Code by Zapier step does keyword matching against two word lists (urgency signals, topic signals) to produce a priority and category, and Filter screens out unsubscribe-type noise before it even reaches that step. It\u2019s deliberately the least AI-dependent project here, which is exactly why it\u2019s worth including \u2014 it shows judgment about when a model actually adds value versus when plain logic is faster, free, and just as reliable.'
+      }
+    ]
+  },
+  ghl: {
+    name: 'GoHighLevel',
+    logo: '/_blob/dd08ea5c17fc39c57c8a005db3d53993',
+    intro: 'Three builds on GoHighLevel: tag-based lead follow-up, a time-of-day branch for missed calls, and a Zapier bridge that syncs pipeline changes out to a live spreadsheet.',
+    projects: [
+      {
+        title: 'Automated Lead Response',
+        desc: 'Tag-based branching and wait timers automate lead follow-up, from first reply to booked appointment.',
+        tools: ['GoHighLevel Workflows', 'Forms', 'Pipelines', 'SMS', 'Email', 'Internal Notification', 'Tags', 'Wait / Conditions'],
+        screenshots: [
+          { url: '/_blob/e61ecde6ef9cc6d7984a6427b8df6a5a', label: 'Automation Workflow' },
+          { url: '/_blob/6704176355b7645373482a95316041fe', label: 'Lead Capture Form' },
+          { url: '/_blob/dc0e2f39f797fba5fba26a6eeac3be46', label: 'Pipeline Board' }
+        ],
+        hasCaseStudy: true,
+        before: ['A lead\u2019s first reply depended on someone being free to answer', 'A quiet lead could easily get forgotten before anyone followed up', 'Booked appointments had to be added to the pipeline by hand'],
+        after: ['Every form submission gets an instant SMS and email', 'A quiet lead triggers an internal alert, then a follow-up text if it\u2019s still quiet', 'A booked appointment creates the opportunity and updates the pipeline on its own'],
+        result: 'No lead sits waiting on a human for that first reply',
+        caseStudy: 'The form submission triggers an instant SMS and email, then the workflow waits and checks tags before doing anything else \u2014 if a lead still isn\u2019t marked \u201ccontacted\u201d after a bit, it pings the team internally so a real person follows up, and if they still haven\u2019t booked after another wait, it sends one more SMS nudge instead of just letting them go cold. A separate trigger watches specifically for booked appointments, and when one comes in, it creates or updates the opportunity and tags it \u2014 that\u2019s what actually moves a lead across the pipeline board into Estimate Scheduled. No AI call anywhere in this one; tags and wait timers do the whole job.'
+      },
+      {
+        title: 'Missed Call Text-Back',
+        desc: 'Texts back every missed call within moments, with different wording for business hours versus after hours, and logs the caller as a new opportunity.',
+        tools: ['GoHighLevel Workflows', 'SMS', 'Pipelines', 'Internal Notification', 'Conditions', 'Call Details'],
+        screenshots: [{ url: '/_blob/b52ef884ca558de7cab51bf9521541da', label: '' }],
+        hasCaseStudy: true,
+        before: ['A missed call just sat there, with no automatic response', 'Callers who rang after hours heard nothing until someone got back to them', 'No record of who called until someone followed up manually'],
+        after: ['Every missed call gets an instant text back', 'The message itself changes depending on business hours or after', 'The caller becomes a tracked opportunity automatically, no manual entry'],
+        result: 'A missed call now gets an answer, whether it\u2019s the middle of the day or the middle of the night',
+        caseStudy: 'This one branches on time of day instead of tags, a genuinely different pattern from the other two GHL builds. A missed call triggers a short wait, then a Condition step checks whether the call landed during business hours or after, and sends a differently-worded text either way, before creating the opportunity and pinging the team internally. There\u2019s a third path too, for when neither time condition matches \u2014 that exists specifically to catch edge cases, like a call landing right on a boundary, rather than assuming the two conditions cover everything.'
+      },
+      {
+        title: 'Pipeline-to-Sheet Lead Sync',
+        desc: 'Watches for a pipeline stage change in GoHighLevel and logs the lead\u2019s details into a Google Sheet automatically, keeping an external record in sync with the CRM.',
+        tools: ['Zapier', 'LeadConnector', 'Google Sheets', 'Pipeline Triggers'],
+        screenshots: [
+          { url: '/_blob/d66e4e65480a1fd0b961c19edc17237b', label: 'Lead Automation Workflow' },
+          { url: '/_blob/e7a88845e48c1a2a1bc5a1be87522248', label: 'Zapier Configuration' },
+          { url: '/_blob/11ab6cd9b86b9924a4fa1ebff70d25c5', label: 'Flooring Leads Tracker' }
+        ],
+        hasCaseStudy: true,
+        before: ['No copy of lead data existed outside the CRM', 'Checking pipeline progress meant logging into GoHighLevel directly', 'Sharing lead info with anyone outside GHL meant exporting or retyping it'],
+        after: ['Every pipeline stage change pushes the lead\u2019s info to a live spreadsheet', 'Anyone with the sheet link sees current leads without a GHL login', 'Data entry happens once, in GHL, and the sheet just reflects it'],
+        result: 'A GHL-only CRM now has a live, shareable copy of its lead data',
+        caseStudy: 'This one\u2019s less about complex logic and more about connecting two tools that don\u2019t talk to each other natively. Zapier\u2019s LeadConnector trigger watches for a pipeline stage change in GoHighLevel, and a single Google Sheets action writes that lead\u2019s details into a row. Kept intentionally simple, two steps, no branching, because the actual job here is reliable syncing, not decision-making. Worth mentioning why this matters in practice: a business owner who wants to hand leads to a subcontractor or a spreadsheet-based reporting tool doesn\u2019t need to give out GHL access at all once this is running.'
+      }
+    ]
+  }
+};
+
+var BADGES = [
+  { url: '/_blob/a93ad09e597e0dfe0bf4a9d9556e8fbe', name: 'Make Academy \u2014 Foundation', cert: '/_blob/7f3f0d09a8c3ec0417bd48ce95b72a94' },
+  { url: '/_blob/33b2107a0eb5db0a59b61241557a1926', name: 'Make Academy \u2014 Basics', cert: '/_blob/e625e74177f4404fdf6a2aa8ccae32c5' },
+  { url: '/_blob/26cfefeaa5c9517cefbcfca9d7e1a563', name: 'Make Academy \u2014 AI Automation Explorer', cert: '/_blob/3a33538aa2174022defb566e7d8ec782' },
+  { url: '/_blob/f55feb6a09e677cb0b0d6214388614c6', name: 'Google \u2014 AI Professional', cert: '/_blob/5555cdf2c79572e175560a64a388adda' }
+];
+
+// ===== Mobile nav =====
+function toggleMobileMenu() {
+  var el = document.getElementById('nav-links');
+  if (el) el.classList.toggle('open');
+}
+(function () {
+  var links = document.getElementById('nav-links');
+  if (links) {
+    links.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') links.classList.remove('open');
+    });
+  }
+})();
+
+// ===== Scrollbar-on-scroll =====
+(function () {
+  var t = null;
+  window.addEventListener('scroll', function () {
+    document.documentElement.classList.add('is-scrolling');
+    clearTimeout(t);
+    t = setTimeout(function () {
+      document.documentElement.classList.remove('is-scrolling');
+    }, 1000);
+  }, { passive: true });
+})();
+
+// ===== Fade-up on scroll (replayable) =====
+function revealFadeUps(scopeEl) {
+  var els = (scopeEl || document).querySelectorAll('.fade-up');
+  if (!('IntersectionObserver' in window) || !els.length) {
+    els.forEach(function (el) { el.classList.add('in-view'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(function (el) { io.observe(el); });
+}
+revealFadeUps(document);
+
+// Preload certificate images so clicking a badge shows it instantly
+(function () {
+  if (typeof BADGES === 'undefined') return;
+  BADGES.forEach(function (b) {
+    if (b.cert) { var img = new Image(); img.src = b.cert; }
+  });
+})();
+
+// ===== Back to top =====
+function goToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function scrollToId(id) {
+  setTimeout(function () {
+    var el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+}
+
+// ===== Project modal =====
+function openProjectModal(proj) {
+  var sbw = window.innerWidth - document.documentElement.clientWidth;
+  document.body.style.overflow = 'hidden';
+  document.body.style.paddingRight = sbw + 'px';
+
+  document.getElementById('modal-title').textContent = proj.title;
+
+  var shotsWrap = document.getElementById('modal-shots');
+  shotsWrap.innerHTML = '';
+  if (proj.screenshots && proj.screenshots.length) {
+    proj.screenshots.forEach(function (shot) {
+      var wrap = document.createElement('div');
+      wrap.style.display = 'flex';
+      wrap.style.flexDirection = 'column';
+      wrap.style.gap = '8px';
+      if (shot.label) {
+        var label = document.createElement('div');
+        label.style.fontSize = '13px';
+        label.style.color = 'var(--text-secondary)';
+        label.style.fontWeight = '600';
+        label.textContent = shot.label;
+        wrap.appendChild(label);
+      }
+      var img = document.createElement('img');
+      img.src = shot.url;
+      img.style.maxWidth = '100%';
+      img.style.borderRadius = '8px';
+      wrap.appendChild(img);
+      shotsWrap.appendChild(wrap);
+    });
+  } else {
+    var empty = document.createElement('div');
+    empty.style.color = 'var(--text-faint)';
+    empty.style.fontSize = '15px';
+    empty.style.padding = '30px 0';
+    empty.style.textAlign = 'center';
+    empty.textContent = 'Screenshot coming soon for this project.';
+    shotsWrap.appendChild(empty);
+  }
+
+  var caseWrap = document.getElementById('modal-casestudy');
+  if (proj.hasCaseStudy) {
+    caseWrap.style.display = 'flex';
+    document.getElementById('modal-before').innerHTML = proj.before.map(function (l) {
+      return '<div class="ba-line"><span style="color:#E8A87C;">&bull;</span><span>' + l + '</span></div>';
+    }).join('');
+    document.getElementById('modal-after').innerHTML = proj.after.map(function (l) {
+      return '<div class="ba-line"><span style="color:#7FD9C4;">&bull;</span><span>' + l + '</span></div>';
+    }).join('');
+    document.getElementById('modal-result').textContent = proj.result;
+    document.getElementById('modal-casestudytext').textContent = proj.caseStudy;
+  } else {
+    caseWrap.style.display = 'none';
+  }
+
+  document.getElementById('project-modal').classList.add('open');
+}
+
+function closeProjectModal() {
+  document.body.style.overflow = '';
+  document.body.style.paddingRight = '';
+  document.getElementById('project-modal').classList.remove('open');
+}
+
+function openCertModal(index) {
+  var badge = BADGES[index];
+  var sbw = window.innerWidth - document.documentElement.clientWidth;
+  document.body.style.overflow = 'hidden';
+  document.body.style.paddingRight = sbw + 'px';
+
+  document.getElementById('modal-title').textContent = badge.name;
+  document.getElementById('modal-casestudy').style.display = 'none';
+
+  var shotsWrap = document.getElementById('modal-shots');
+  shotsWrap.innerHTML = '';
+  if (badge.cert) {
+    var img = document.createElement('img');
+    img.src = badge.cert;
+    img.style.maxWidth = '100%';
+    img.style.borderRadius = '8px';
+    shotsWrap.appendChild(img);
+  } else {
+    var empty = document.createElement('div');
+    empty.style.color = 'var(--text-faint)';
+    empty.style.fontSize = '15px';
+    empty.style.padding = '30px 0';
+    empty.style.textAlign = 'center';
+    empty.textContent = 'Certificate coming soon.';
+    shotsWrap.appendChild(empty);
+  }
+
+  document.getElementById('project-modal').classList.add('open');
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  var overlay = document.getElementById('project-modal');
+  if (overlay) {
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeProjectModal();
+    });
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  var el = document.getElementById('footer-placeholder');
+  if (!el) return;
+  el.innerHTML = ''
+    + '<div class="site-footer">'
+    + '  <div class="footer-grid">'
+    + '    <div>'
+    + '      <div class="footer-brand">&lt;/&gt; IKG Digital</div>'
+    + '      <div class="footer-tagline">AI Automation Specialist.</div>'
+    + '    </div>'
+    + '    <div>'
+    + '      <div class="footer-heading">Contact</div>'
+    + '      <a class="footer-link" href="mailto:ian.kennedy.gabriel@gmail.com">ian.kennedy.gabriel@gmail.com</a>'
+    + '      <a class="footer-link" href="https://api.whatsapp.com/send?phone=639271291980" target="_blank" rel="noopener">+63 927 129 1980</a>'
+    + '    </div>'
+    + '    <div>'
+    + '      <div class="footer-heading">Quick Links</div>'
+    + '      <a class="footer-link" href="#home" onclick="showPage(\'home\')">Home</a>'
+    + '      <a class="footer-link" href="#about" onclick="showPage(\'about\')">About</a>'
+    + '      <a class="footer-link" href="#projects" onclick="showPage(\'projects\')">Projects</a>'
+    + '      <a class="footer-link" href="#contact" onclick="showPage(\'contact\')">Contact</a>'
+    + '    </div>'
+    + '    <div>'
+    + '      <div class="footer-heading">Social</div>'
+    + '      <div class="footer-social">'
+    + '        <a href="mailto:ian.kennedy.gabriel@gmail.com" aria-label="Email"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/></svg></a>'
+    + '        <a href="https://www.linkedin.com/in/ian-kennedy-gabriel/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/><path d="M10 9h4v2c1-1.5 2.5-2 4-2 3 0 5 2 5 6v6h-4v-6c0-1.5-1-2.5-2.5-2.5S14 13.5 14 15v6h-4V9z"/></svg></a>'
+    + '        <a href="https://api.whatsapp.com/send?phone=639271291980" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.9-1.4A10 10 0 1 0 12 2zm5.6 14.1c-.2.6-1.3 1.2-1.8 1.3-.5.1-1 .1-3.2-.8-2.7-1.1-4.4-3.9-4.6-4.1-.1-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 1-2.2.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.4.6c-.1.2-.2.3-.1.5.2.4.9 1.4 1.9 2.2 1.3 1 2.3 1.4 2.6 1.5.2.1.4.1.6-.1l.6-.7c.2-.3.4-.2.6-.1l1.8.9c.2.1.4.2.4.4 0 .2 0 .8-.2 1.4z"/></svg></a>'
+    + '      </div>'
+    + '    </div>'
+    + '  </div>'
+    + '  <div class="footer-bottom">'
+    + '    <div>&copy; 2026 IKG Digital. All rights reserved.</div>'
+    + '    <a href="#top" onclick="goToTop(); return false;" style="display:flex; align-items:center; gap:6px;">&#9650; IKG Digital Portfolio</a>'
+    + '  </div>'
+    + '</div>';
+});
+
+// ===== Render platform project sections =====
+(function () {
+  var order = ['make', 'n8n', 'zapier', 'ghl'];
+  var alt = false;
+  var container = document.getElementById('platform-sections');
+  var html = '';
+
+  order.forEach(function (key) {
+    var p = PLATFORM_DATA[key];
+    var sectionOpen = alt ? '<div class="section-boxed"><div class="section-pad">' : '<div class="section-pad">';
+    var sectionClose = alt ? '</div></div>' : '</div>';
+    alt = !alt;
+
+    html += '<div id="projects-' + key + '">' + sectionOpen;
+    html += '<div class="fade-up"><div class="eyebrow-sm">Built entirely with ' + p.name + '</div><h2 class="section-title">' + p.name + ' Projects</h2><p class="section-sub">' + p.intro + '</p></div>';
+    html += '<div class="grid-3">';
+
+    p.projects.forEach(function (proj, i) {
+      var imgUrl = proj.screenshots && proj.screenshots.length ? proj.screenshots[0].url : null;
+      var imgHtml = imgUrl
+        ? '<img class="project-card-img" src="' + imgUrl + '">'
+        : '<div class="project-card-img-placeholder">Screenshot coming soon</div>';
+      var tags = proj.tools.map(function (t) { return '<div class="tag">' + t + '</div>'; }).join('');
+
+      html += '<div class="card project-card click-card fade-up" data-platform="' + key + '" data-index="' + i + '">';
+      html += imgHtml;
+      html += '<div class="project-card-body">';
+      html += '<div class="card-title">' + proj.title + '</div>';
+      html += '<div class="card-desc">' + proj.desc + '</div>';
+      html += '<div class="tag-row">' + tags + '</div>';
+      html += '</div></div>';
+    });
+
+    html += '</div>' + sectionClose + '</div>';
+  });
+
+  container.innerHTML = html;
+
+  container.querySelectorAll('.project-card').forEach(function (card) {
+    card.addEventListener('click', function () {
+      var key = card.getAttribute('data-platform');
+      var idx = parseInt(card.getAttribute('data-index'), 10);
+      openProjectModal(PLATFORM_DATA[key].projects[idx]);
+    });
+  });
+
+  revealFadeUps(container);
+})();
+
+// ===== Page router =====
+function showPage(name, platformKey) {
+  document.querySelectorAll('.page-section').forEach(function (el) { el.classList.remove('active'); });
+  var target = document.getElementById('page-' + name);
+  if (target) target.classList.add('active');
+
+  if (target) {
+    var fadeEls = target.querySelectorAll('.fade-up');
+    fadeEls.forEach(function (el) { el.classList.remove('in-view'); });
+    void target.offsetWidth; // force reflow so the removed class registers before re-observing
+    revealFadeUps(target);
+  }
+
+  document.querySelectorAll('.nav-links a').forEach(function (a) {
+    a.classList.toggle('active', a.getAttribute('data-page') === name);
+  });
+
+  var links = document.getElementById('nav-links');
+  if (links) links.classList.remove('open');
+
+  window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+
+  var hash = '#' + name;
+  if (platformKey) hash = '#projects-' + platformKey;
+  history.replaceState(null, '', hash);
+
+  if (platformKey) {
+    setTimeout(function () {
+      var sec = document.getElementById('projects-' + platformKey);
+      if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 60);
+  }
+}
+
+function routeFromHash() {
+  var h = window.location.hash.replace('#', '');
+  if (!h) { showPage('home'); return; }
+  if (h.indexOf('projects-') === 0) {
+    showPage('projects', h.replace('projects-', ''));
+    return;
+  }
+  if (['home', 'about', 'projects', 'contact'].indexOf(h) !== -1) {
+    showPage(h);
+  } else {
+    showPage('home');
+  }
+}
+
+window.addEventListener('hashchange', routeFromHash);
+routeFromHash();
+</script>
+</body>
+</html>
