@@ -964,6 +964,7 @@ function openProjectModal(proj) {
   }
 
   document.getElementById('project-modal').classList.add('open');
+  document.querySelector('.modal-body').scrollTop = 0;
 }
 
 function closeProjectModal() {
@@ -1005,6 +1006,7 @@ function openCertModal(index) {
   }
 
   document.getElementById('project-modal').classList.add('open');
+  document.querySelector('.modal-body').scrollTop = 0;
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -1051,18 +1053,19 @@ function initFooter() {
 
   function updatePill() {
     if (!wrapEl || !pillEl) return;
-    if (pillEl.classList.contains('open')) return;
-    var atBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 40);
-    if (atBottom) {
-      pillEl.classList.add('open');
-      return;
-    }
     var rect = wrapEl.getBoundingClientRect();
-    var midpoint = rect.top + rect.height / 2;
-    if (window.innerHeight >= midpoint) {
-      pillEl.classList.add('open');
+    if (rect.height === 0) return;
+    var vh = window.innerHeight;
+    if (!pillEl.classList.contains('open')) {
+      var atBottom = (vh + window.scrollY) >= (document.documentElement.scrollHeight - 40);
+      if (atBottom || vh >= rect.top + rect.height / 2) {
+        pillEl.classList.add('open');
+      }
+    } else if (rect.top >= vh) {
+      pillEl.classList.remove('open');
     }
   }
+  window.__updatePill = updatePill;
 
   if (wrapEl && pillEl) {
     window.addEventListener('scroll', updatePill, { passive: true });
@@ -1189,6 +1192,7 @@ function showPage(name, platformKey) {
   if (links) links.classList.remove('open');
 
   window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+  if (window.__updatePill) window.__updatePill();
 
   var hash = '#' + name;
   if (platformKey) hash = '#projects-' + platformKey;
