@@ -214,6 +214,10 @@ html.is-scrolling::-webkit-scrollbar-thumb { background-color: var(--border-stro
 }
 .click-card { cursor: pointer; transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease; }
 .click-card:hover { transform: translateY(-4px); border-color: var(--text-primary); box-shadow: 0 14px 32px rgba(0,0,0,.35); }
+.project-card { cursor: pointer; transition: border-color .35s ease, background-color .35s ease, transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s cubic-bezier(.22,1,.36,1); }
+.fade-up.project-card:hover { border-color: var(--border-emphasis, var(--border-strong)); background: color-mix(in srgb, var(--bg-card) 96%, white 4%); transform: scale(1.015) translateY(-6px); box-shadow: 0 16px 28px rgba(0,0,0,.35); }
+.contact-row { cursor: pointer; transition: border-color .35s ease, background-color .35s ease, transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s cubic-bezier(.22,1,.36,1); }
+.contact-row:hover { border-color: var(--border-emphasis, var(--border-strong)); background: color-mix(in srgb, var(--bg-card) 96%, white 4%); transform: scale(1.015) translateY(-6px); box-shadow: 0 16px 28px rgba(0,0,0,.35); }
 .badge-click { cursor: pointer; transition: transform .15s ease; }
 .badge-click:hover { transform: scale(1.06); }
 .card-title { font-weight: 700; font-size: 21px; min-height: 58px; line-height: 1.35; display: flex; align-items: center; white-space: pre-line; text-wrap: balance; }
@@ -582,15 +586,15 @@ html.is-scrolling::-webkit-scrollbar-thumb { background-color: var(--border-stro
   </div>
   <div class="section-pad">
     <div class="grid-3 fade-up">
-      <a href="mailto:ian.kennedy.gabriel@gmail.com" class="contact-row click-card">
+      <a href="mailto:ian.kennedy.gabriel@gmail.com" class="contact-row">
         <div class="contact-row-head"><div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/></svg></div><div style="font-size:15px; font-weight:600; color:var(--text-secondary);">Email</div></div>
         <div class="contact-value">ian.kennedy.gabriel@gmail.com</div>
       </a>
-      <a href="https://api.whatsapp.com/send?phone=639271291980" target="_blank" rel="noopener" class="contact-row click-card">
+      <a href="https://api.whatsapp.com/send?phone=639271291980" target="_blank" rel="noopener" class="contact-row">
         <div class="contact-row-head"><div class="contact-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.9-1.4A10 10 0 1 0 12 2zm5.6 14.1c-.2.6-1.3 1.2-1.8 1.3-.5.1-1 .1-3.2-.8-2.7-1.1-4.4-3.9-4.6-4.1-.1-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 1-2.2.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.4.6c-.1.2-.2.3-.1.5.2.4.9 1.4 1.9 2.2 1.3 1 2.3 1.4 2.6 1.5.2.1.4.1.6-.1l.6-.7c.2-.3.4-.2.6-.1l1.8.9c.2.1.4.2.4.4 0 .2 0 .8-.2 1.4z"/></svg></div><div style="font-size:15px; font-weight:600; color:var(--text-secondary);">WhatsApp</div></div>
         <div class="contact-value">+63 927 129 1980</div>
       </a>
-      <a href="https://www.linkedin.com/in/ian-kennedy-gabriel/" target="_blank" rel="noopener" class="contact-row click-card">
+      <a href="https://www.linkedin.com/in/ian-kennedy-gabriel/" target="_blank" rel="noopener" class="contact-row">
         <div class="contact-row-head"><div class="contact-icon"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/><path d="M10 9h4v2c1-1.5 2.5-2 4-2 3 0 5 2 5 6v6h-4v-6c0-1.5-1-2.5-2.5-2.5S14 13.5 14 15v6h-4V9z"/></svg></div><div style="font-size:15px; font-weight:600; color:var(--text-secondary);">LinkedIn</div></div>
         <div class="contact-value">linkedin.com/in/ian-kennedy-gabriel</div>
       </a>
@@ -633,7 +637,7 @@ html.is-scrolling::-webkit-scrollbar-thumb { background-color: var(--border-stro
   </div>
 </div>
 
-<script>
+<script data-cfasync="false">
 var PLATFORM_DATA = {
   make: {
     name: 'Make',
@@ -855,7 +859,9 @@ function toggleMobileMenu() {
 
 // ===== Fade-up on scroll (replayable) =====
 function revealFadeUps(scopeEl) {
-  var els = (scopeEl || document).querySelectorAll('.fade-up');
+  var root = scopeEl || document;
+  var els = Array.prototype.slice.call(root.querySelectorAll('.fade-up'));
+  if (root.classList && root.classList.contains('fade-up')) els.unshift(root);
   if (!('IntersectionObserver' in window) || !els.length) {
     els.forEach(function (el) { el.classList.add('in-view'); });
     return;
@@ -1081,21 +1087,6 @@ function domReady(fn) {
 
 domReady(initFooter);
 
-window.addEventListener('load', function () {
-  if (!window.__siteFooterEl) {
-    initFooter();
-  } else {
-    placeFooterInActivePage();
-  }
-  setTimeout(function () {
-    if (!window.__siteFooterEl) {
-      initFooter();
-    } else if (!document.body.contains(window.__siteFooterEl)) {
-      placeFooterInActivePage();
-    }
-  }, 800);
-});
-
 function placeFooterInActivePage() {
  try {
   var footerEl = window.__siteFooterEl;
@@ -1131,7 +1122,7 @@ function placeFooterInActivePage() {
         : '<div class="project-card-img-placeholder">Screenshot coming soon</div>';
       var tags = proj.tools.map(function (t) { return '<div class="tag">' + t + '</div>'; }).join('');
 
-      html += '<div class="card project-card click-card fade-up" data-platform="' + key + '" data-index="' + i + '">';
+      html += '<div class="card project-card fade-up" data-platform="' + key + '" data-index="' + i + '">';
       html += imgHtml;
       html += '<div class="project-card-body">';
       html += '<div class="card-title">' + proj.title + '</div>';
