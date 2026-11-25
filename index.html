@@ -1019,6 +1019,14 @@ p { text-wrap: pretty; }
 </head>
 <body>
 <script>
+(function () {   /* runs before anything is drawn, so a dark-mode visitor never sees a white flash */
+  var saved = null; try { saved = localStorage.getItem('ikg-theme'); } catch (e) {}
+  var dark = saved ? saved === 'dark' : !!(window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+  if (dark) document.body.classList.add('theme-dark');
+})();
+</script>
+
+<script>
 /* Page addresses: /automation, /video/projects/ugc, ... The site's code still works with page keys
    (home, video-projects-ugc, ...); these helpers translate between the two. */
 (function () {
@@ -2820,6 +2828,24 @@ routeFromHash();
   window.__route = route;
   route(true, start);
 
+})();
+</script>
+<script>
+(function () {
+  var MQ = window.matchMedia ? matchMedia('(prefers-color-scheme: dark)') : null;
+  function isDark() { return document.body.classList.contains('theme-dark'); }
+  function syncIcon() { var i = document.getElementById('theme-icon-sun'); if (i && window.MOON_ICON) i.innerHTML = isDark() ? MOON_ICON : SUN_ICON; }
+  var inner = window.toggleTheme;
+  window.toggleTheme = function () {   /* the visitor picked a theme: keep it for their next visit */
+    inner.apply(this, arguments);
+    try { localStorage.setItem('ikg-theme', isDark() ? 'dark' : 'light'); } catch (e) {}
+  };
+  function saved() { try { return localStorage.getItem('ikg-theme'); } catch (e) { return null; } }
+  if (MQ) {
+    var follow = function () { if (!saved() && MQ.matches !== isDark()) inner(); };   /* no choice made yet: follow the system as it changes */
+    if (MQ.addEventListener) MQ.addEventListener('change', follow); else if (MQ.addListener) MQ.addListener(follow);
+  }
+  syncIcon();
 })();
 </script>
 <script>
