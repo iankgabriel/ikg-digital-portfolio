@@ -1004,6 +1004,13 @@ p { text-wrap: pretty; }
 .vid .platform-card, .vid .grid-4 > .card.fade-up, #page-about .grid-4 > .card.fade-up { transition: opacity .6s ease, border-color .35s ease, background-color .35s ease, transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s cubic-bezier(.22,1,.36,1); }
 .vid .platform-card:hover, .vid .grid-4 > .card.fade-up.in-view:hover, #page-about .grid-4 > .card.fade-up.in-view:hover { border-color: var(--border-emphasis, var(--border-strong)); background: color-mix(in srgb, var(--bg-card) 96%, white 4%); transform: scale(1.015) translateY(-6px); box-shadow: 0 16px 28px rgba(0,0,0,.35); }
 
+/* Landscape (16:9) videos: the player fills its column at a true 16:9 shape instead of a fixed height */
+.vid-modal.wide .modal-box { max-width: 1180px; }
+.vid-modal.wide .vrow { grid-template-columns: minmax(0, 1fr) minmax(0, 280px); }
+.vid-modal.wide .vplayer { width: min(100%, calc(70vh / var(--site-z, 1) * 16 / 9)); height: auto !important; aspect-ratio: 16 / 9; justify-self: center; }
+@media (max-width: 860px) { .vid-modal.wide .vrow { grid-template-columns: 1fr; } }
+.vid .wthumb .wimg { object-fit: cover; }
+
 /* nav links keep room for the wider word (Work / Projects) so nothing shifts when switching sides */
 .nav-links a { display: inline-grid; justify-items: center; }
 .nav-links a > span { grid-area: 1 / 1; }
@@ -2536,7 +2543,7 @@ routeFromHash();
     var b = document.createElement('button'); b.type = 'button'; b.className = 'wtile'; b.dataset.c = w.c;
     var tint = TINTS[i % 3];
     b.innerHTML = '<span class="wthumb" style="aspect-ratio:' + RATIO[w.r] + ';--ta:' + tint[0] + ';--tb:' + tint[1] + '">' + PLAYSVG + '<span class="rt">' + w.r + '</span></span><span class="wmeta"><b></b><span></span></span>';
-    if (w.thumb && CAN_EMBED) { var im = new Image(); im.className = 'wimg'; im.alt = ''; im.loading = 'lazy'; im.src = w.thumb; b.querySelector('.wthumb').insertBefore(im, b.querySelector('.wthumb').firstChild); }
+    if (w.thumb && CAN_EMBED) { var im = new Image(); im.className = 'wimg'; im.alt = ''; im.loading = 'lazy'; im.src = w.yt ? 'https://i.ytimg.com/vi/' + w.yt + '/maxresdefault.jpg' : w.thumb; if (w.yt) im.onload = function () { if (im.naturalWidth < 200 && !im.dataset.fb) { im.dataset.fb = 1; im.src = 'https://i.ytimg.com/vi/' + w.yt + '/sddefault.jpg'; } }; if (w.yt) im.onerror = function () { if (!im.dataset.fb2) { im.dataset.fb2 = 1; im.src = w.thumb; } }; b.querySelector('.wthumb').insertBefore(im, b.querySelector('.wthumb').firstChild); }
     b.querySelector('.wmeta b').textContent = w.t; b.querySelector('.wmeta span').textContent = CAT[w.c];
     if (w.ai) {   /* recorded video with AI clips added: label only on tiles */
       var bad = document.createElement('span'); bad.className = 'aib'; bad.innerHTML = 'AI' + SPARK;
@@ -2589,6 +2596,7 @@ routeFromHash();
     document.getElementById('vm-desc').textContent = w.d; document.getElementById('vm-desc').hidden = !w.d;
     var pl = document.getElementById('vm-player'), old = pl.querySelector('iframe, .vlink'); if (old) old.remove();
     pl.classList.toggle('has-video', !!(w.vimeo || w.yt));
+    vm.classList.toggle('wide', w.r === '16:9');   /* landscape videos get a full-width player sized to 16:9, so no black bars */
     if (w.yt && CAN_EMBED) {
       var yf = document.createElement('iframe');
       yf.src = 'https://www.youtube-nocookie.com/embed/' + w.yt + '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
