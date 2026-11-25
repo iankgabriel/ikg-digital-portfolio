@@ -22,7 +22,7 @@ A Video / Automation switch in the header moves between matching pages on each s
 
 ## How it's built
 
-The site is one `index.html` file with no framework and no build step. Every page lives inside that file, so moving between pages is instant and nothing reloads. Each page still has its own address (like `/video/projects/ugc`), and older `#` links such as `#about` or `#projects-make` open the right page and switch to the new address.
+The site is one page of HTML with no framework. Each page address has its own copy of that file with its own title and description, so search engines list every page separately. Every page lives inside that file, so moving between pages is instant and nothing reloads. Each page still has its own address (like `/video/projects/ugc`), and older `#` links such as `#about` or `#projects-make` open the right page and switch to the new address.
 
 Images live in `assets/img/`. Videos are hosted on Vimeo (short videos) and YouTube (full podcast episodes) and play in an embedded player.
 
@@ -33,10 +33,13 @@ Headings use Atkinson Hyperlegible and body text uses Inter. The design was insp
 | File | Purpose |
 |---|---|
 | `index.html` | The entire site |
+| `video.html`, `automation.html`, `contact.html`, `video/`, `automation/` | Copies of the site, one per page, each with that page's own title, description, and address for search engines. Cloudflare serves `/video` from `video.html`, and so on. |
+| `sitemap.xml` | The list of pages for Google and other search engines |
+| `_headers` | Tells browsers to keep images saved, so repeat visits load instantly |
 | `assets/img/` | Photos, logos, badges, and certificates used on the site |
 | `share.html` | A lightweight page with link-preview tags that sends visitors to the homepage |
 | `og-image-v3.png`, `og-image-v3-sm.png` | Current link preview images (older `og-image.png` and `og-image-v2.png` are kept for links already shared) |
-| `robots.txt` | Allows search engines to crawl the site |
+| `robots.txt` | Allows search engines to crawl the site and points them to the sitemap |
 
 ## Hosting and deployment
 
